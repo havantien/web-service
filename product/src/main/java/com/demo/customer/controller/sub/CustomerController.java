@@ -55,7 +55,7 @@ public class CustomerController extends AbstractController {
         return new ResponseEntity<>(customer, HttpStatus.OK);
     }
 
-    @DeleteMapping("/customers/{id}")
+    @DeleteMapping("/customer/{id}")
     public ResponseEntity<Customer> deleteCustomer(@PathVariable("id") long id) {
         Customer customer = customerService.findById(id);
         if (customer == null) {
