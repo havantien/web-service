@@ -11,7 +11,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.List;
 
 @RestController
-@RequestMapping("v1")
+@RequestMapping("/v1")
 public class CustomerController extends AbstractController {
     @GetMapping("/list")
     public ResponseEntity<List<Customer>> listAllCustomer() {
@@ -22,7 +22,7 @@ public class CustomerController extends AbstractController {
         return new ResponseEntity<>(customers, HttpStatus.OK);
     }
 
-    @GetMapping("/customer/{id}")
+    @GetMapping("/customers/{id}")
     public ResponseEntity<Customer> getCustomer(@PathVariable("id") Long id) {
         Customer customers = customerService.findById(id);
         if (customers == null) {
@@ -31,15 +31,15 @@ public class CustomerController extends AbstractController {
         return new ResponseEntity<>(customers,HttpStatus.OK);
     }
 
-    @PostMapping("/customer")
-    public ResponseEntity<Void> createCustomer(@RequestBody Customer customer, UriComponentsBuilder ucBuilder) {
+    @PostMapping("/customers")
+    public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer, UriComponentsBuilder ucBuilder) {
         customerService.save(customer);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setLocation(ucBuilder.path("/customers/{id}").buildAndExpand(customer.getId()).toUri());
         return new ResponseEntity<>(httpHeaders, HttpStatus.CREATED);
     }
 
-    @PutMapping("/customer/{id}")
+    @PutMapping("/customers/{id}")
     public ResponseEntity<Customer> updateCustomer(@PathVariable("id") long id, @RequestBody Customer customer) {
         Customer currentCustomer = customerService.findById(id);
 
