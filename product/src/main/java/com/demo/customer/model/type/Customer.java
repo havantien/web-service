@@ -20,4 +20,10 @@ public class Customer extends AbstractModel {
         this.firstName = firstName;
         this.lastName = lastName;
     }
+
+    public Customer(Long id,String firstName, String lastName) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
 }
