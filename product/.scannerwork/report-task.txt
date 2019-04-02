@@ -1,0 +1,5 @@
+projectKey=tien
+serverUrl=https://sonar-qube.ntq.solutions
+dashboardUrl=https://sonar-qube.ntq.solutions/dashboard/index/tien
+ceTaskId=AWncGRRQPMUUO3y0UT2A
+ceTaskUrl=https://sonar-qube.ntq.solutions/api/ce/task?id=AWncGRRQPMUUO3y0UT2A
