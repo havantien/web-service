@@ -25,11 +25,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer findById(Long id) {
-        Optional<Customer> opt = customerRepository.findById(id);
-        if (!opt.isPresent()) {
-            return null;
-        }
-        return opt.get();
+        return customerRepository.findById(id).orElse(null);
     }
 
     @Override

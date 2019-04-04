@@ -32,31 +32,30 @@ public class CustomerController extends AbstractController {
     }
 
     @PostMapping("/customers")
-    public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer, UriComponentsBuilder ucBuilder) {
+    public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer, UriComponentsBuilder builder) {
         customerService.save(customer);
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setLocation(ucBuilder.path("/customers/{id}").buildAndExpand(customer.getId()).toUri());
-        return new ResponseEntity<>(httpHeaders, HttpStatus.CREATED);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(builder.path("/customer/{id}")
+                .buildAndExpand(customer.getId()).toUri());
+        return new ResponseEntity<>(customer, HttpStatus.CREATED);
     }
 
     @PutMapping("/customers/{id}")
-    public ResponseEntity<Customer> updateCustomer(@PathVariable("id") long id, @RequestBody Customer customer) {
+    public ResponseEntity<Customer> updateCustomer(@PathVariable("id") Long id,
+                                                   @RequestBody Customer customer) {
         Customer currentCustomer = customerService.findById(id);
 
         if (currentCustomer == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-        customer.setFirstName(customer.getFirstName());
-        customer.setLastName(customer.getLastName());
-        customer.setId(customer.getId());
-
-        customerService.save(customer);
-        return new ResponseEntity<>(customer, HttpStatus.OK);
+        currentCustomer.setFirstName(customer.getFirstName());
+        currentCustomer.setLastName(customer.getLastName());
+        customerService.save(currentCustomer);
+        return new ResponseEntity<>(currentCustomer, HttpStatus.OK);
     }
 
     @DeleteMapping("/customer/{id}")
-    public ResponseEntity<Customer> deleteCustomer(@PathVariable("id") long id) {
+    public ResponseEntity<Customer> deleteCustomer(@PathVariable("id") Long id) {
         Customer customer = customerService.findById(id);
         if (customer == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

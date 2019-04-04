@@ -1,7 +1,5 @@
 package com.demo.customer.controller.sub;
 
-import com.demo.customer.exception.RestExceptionHandler;
-import com.demo.customer.filter.CustomerFilter;
 import com.demo.customer.model.type.Customer;
 import com.demo.customer.service.CustomerService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,10 +38,10 @@ public class CustomerControllerTest {
     public void setUp(){
         JacksonTester.initFields(this, new ObjectMapper());
         // MockMvc standalone approach
-        mockMvc = MockMvcBuilders.standaloneSetup(customerController)
-                .setControllerAdvice(new RestExceptionHandler())
-                .addFilters(new CustomerFilter())
-                .build();
+//        mockMvc = MockMvcBuilders.standaloneSetup(customerController)
+//                .setControllerAdvice(new RestExceptionHandler())
+//                .addFilters(new CustomerFilter())
+//                .build();
     }
     @Test
     public void listAllCustomer() throws Exception {

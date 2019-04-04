@@ -6,7 +6,7 @@ import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.io.Serializable;
+
 
 
 @Getter
@@ -17,9 +17,7 @@ import java.io.Serializable;
         value ="id",
         allowGetters = true
 )
-
-
-public abstract class AbstractModel implements Serializable {
+public abstract class AbstractModel{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected Long id;

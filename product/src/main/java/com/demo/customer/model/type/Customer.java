@@ -1,25 +1,22 @@
 package com.demo.customer.model.type;
 
+
 import com.demo.customer.model.AbstractModel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "customer", schema = "public")
+@AllArgsConstructor
 @NoArgsConstructor
 public class Customer extends AbstractModel {
     private String firstName;
     private String lastName;
-
-
-    public Customer(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
+    
 
     public Customer(Long id,String firstName, String lastName) {
         this.id = id;
