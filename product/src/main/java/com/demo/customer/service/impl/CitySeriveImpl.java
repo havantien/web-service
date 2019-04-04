@@ -4,9 +4,11 @@ import com.demo.customer.model.type.City;
 import com.demo.customer.repository.CityRepository;
 import com.demo.customer.service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class CitySeriveImpl implements CityService {
     @Autowired
     CityRepository cityRepository;
