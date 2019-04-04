@@ -1,6 +1,8 @@
 package com.demo.customer.controller;
 
 
+import com.demo.customer.model.type.City;
+import com.demo.customer.service.CityService;
 import com.demo.customer.service.CustomerService;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,4 +16,7 @@ public abstract class AbstractController {
 
     @Autowired
     protected CustomerService customerService;
+
+    @Autowired
+    protected CityService cityService;
 }
