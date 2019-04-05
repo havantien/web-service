@@ -2,6 +2,9 @@ package com.demo.customer.controller.sub;
 
 import com.demo.customer.controller.AbstractController;
 import com.demo.customer.model.type.Customer;
+import com.demo.customer.service.CustomerService;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,11 +15,16 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1")
+@AllArgsConstructor
 public class CustomerController extends AbstractController {
+
+    @Autowired
+    protected CustomerService customerService;
+
     @GetMapping("/list")
     public ResponseEntity<List<Customer>> listAllCustomer() {
         List<Customer> customers = customerService.findAll();
-        if (customers.isEmpty()) {
+        if (customers == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(customers, HttpStatus.OK);
@@ -54,7 +62,7 @@ public class CustomerController extends AbstractController {
         return new ResponseEntity<>(currentCustomer, HttpStatus.OK);
     }
 
-    @DeleteMapping("/customer/{id}")
+    @DeleteMapping("/customers/{id}")
     public ResponseEntity<Customer> deleteCustomer(@PathVariable("id") Long id) {
         Customer customer = customerService.findById(id);
         if (customer == null) {

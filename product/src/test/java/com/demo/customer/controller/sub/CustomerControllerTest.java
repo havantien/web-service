@@ -1,64 +1,108 @@
 package com.demo.customer.controller.sub;
 
+import com.demo.customer.CustomerApplication;
 import com.demo.customer.model.type.Customer;
 import com.demo.customer.service.CustomerService;
+import com.demo.utils.JsonUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
-import static org.mockito.BDDMockito.given;
+import javax.transaction.Transactional;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = CustomerApplication.class)
+@Transactional
 public class CustomerControllerTest {
 
     private MockMvc mockMvc;
 
-    @Mock
-    private CustomerService customerService;
+    @Autowired
+    protected CustomerService customerService;
 
-    @InjectMocks
-    private CustomerController customerController;
 
     private JacksonTester<Customer> jsonSuperHero;
 
+    private Customer customer;
+
     @Before
-    public void setUp(){
+    public void setUp() throws Exception {
         JacksonTester.initFields(this, new ObjectMapper());
-        // MockMvc standalone approach
-//        mockMvc = MockMvcBuilders.standaloneSetup(customerController)
-//                .setControllerAdvice(new RestExceptionHandler())
-//                .addFilters(new CustomerFilter())
-//                .build();
-    }
-    @Test
-    public void listAllCustomer() throws Exception {
-
+        this.mockMvc = MockMvcBuilders.standaloneSetup(new CustomerController(customerService)).build();
     }
 
     @Test
-    public void getCustomer() throws Exception {
-        Customer customer = new Customer((long)3,"hihi","hehe");
-        // given
-        given(customerService.findById((long) 3))
-                .willReturn(customer);
+    @Transactional
+    public void getCustomer() throws Exception{
+        Customer customer = new Customer();
+        customer.setId((long)12);
+        customer.setFirstName("hihádasd");
+        customer.setLastName("hhihi12323322");
+        String json = JsonUtil.convertObjToJson(customer);
 
-        // when
-        MockHttpServletResponse response = mockMvc.perform(
-                get("/v1/customers/3")
-                        .accept(MediaType.APPLICATION_JSON))
+
+        //when
+        MockHttpServletResponse response = mockMvc.perform(get("/v1/customers/{id}", 12).accept(MediaType.APPLICATION_JSON)).andReturn().getResponse();
+
+        // then
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+        assertThat(response.getContentAsString()).isEqualTo(
+                jsonSuperHero.write(customer).getJson()
+        );
+
+
+    }
+
+    @Test
+    @Transactional
+    public void createCustomer() throws Exception {
+
+//        customerService.save(customer);
+        Customer currentCustomer = new Customer();
+        currentCustomer.setId((long)22);
+        currentCustomer.setFirstName("abc");
+        currentCustomer.setLastName("zxc");
+
+
+        //when
+        MockHttpServletResponse response = mockMvc.perform(post("/v1/customers")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonSuperHero.write(currentCustomer).getJson()))
+                .andReturn().getResponse();
+
+        // then
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.CREATED.value());
+        assertThat(response.getContentAsString()).isEqualTo(
+                jsonSuperHero.write(currentCustomer).getJson()
+        );
+
+    }
+
+    @Test
+    @Transactional
+    public void updateCustomer() throws Exception {
+        customer = customerService.findById((long)12);
+        customer.setFirstName(customer.getFirstName());
+        customer.setLastName(customer.getLastName());
+        String json = JsonUtil.convertObjToJson(customer);
+
+        //when
+        MockHttpServletResponse response = mockMvc.perform(put("/v1/customers/{id}", 12)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonSuperHero.write(customer).getJson()))
                 .andReturn().getResponse();
 
         // then
@@ -66,21 +110,18 @@ public class CustomerControllerTest {
         assertThat(response.getContentAsString()).isEqualTo(
                 jsonSuperHero.write(customer).getJson()
         );
+
     }
 
     @Test
-    public void createCustomer() {
-//        MockHttpServletResponse response = mockMvc.perform(
-//                post("/v1/customers").contentType(MediaType.APPLICATION_JSON)
-//                .content(jsonSuperHero.write())
-//        )
-    }
+    @Transactional
+    public void deleteCustomer() throws Exception {
 
-    @Test
-    public void updateCustomer() {
-    }
+        //when
+        MockHttpServletResponse response = mockMvc.perform(delete("/v1/customers/{id}", 12)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn().getResponse();
 
-    @Test
-    public void deleteCustomer() {
+
     }
 }

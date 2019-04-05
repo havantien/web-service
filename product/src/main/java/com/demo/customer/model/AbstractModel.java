@@ -21,4 +21,6 @@ public abstract class AbstractModel{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected Long id;
+
+
 }
