@@ -70,7 +70,6 @@ public class CustomerControllerTest {
     @Transactional
     public void createCustomer() throws Exception {
 
-//        customerService.save(customer);
         Customer currentCustomer = new Customer();
         currentCustomer.setId((long)22);
         currentCustomer.setFirstName("abc");
@@ -97,7 +96,6 @@ public class CustomerControllerTest {
         customer = customerService.findById((long)12);
         customer.setFirstName(customer.getFirstName());
         customer.setLastName(customer.getLastName());
-        String json = JsonUtil.convertObjToJson(customer);
 
         //when
         MockHttpServletResponse response = mockMvc.perform(put("/v1/customers/{id}", 12)
