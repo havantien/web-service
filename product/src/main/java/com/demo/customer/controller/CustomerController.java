@@ -1,6 +1,9 @@
 package com.demo.customer.controller;
 
+import com.demo.customer.constant.CodeResponse;
 import com.demo.customer.model.type.Customer;
+import com.demo.customer.response.ResponseModel;
+import com.demo.customer.response.customer.ListAllCustomerResponse;
 import com.demo.customer.service.CustomerService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,24 +12,27 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+import com.demo.customer.utils.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/v1")
 @AllArgsConstructor
-public class CustomerController {
+public class CustomerController extends AbstractController {
 
     @Autowired
     private CustomerService customerService;
 
     @GetMapping("/list-customer")
-    public ResponseEntity<List<Customer>> listAllCustomer() {
+    public ResponseEntity<ResponseModel> listAllCustomer() {
         List<Customer> customers = customerService.findAll();
         if (customers == null) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(new ResponseModel(CodeResponse.FAIL_CODE),HttpStatus.OK);
         }
-        return new ResponseEntity<>(customers, HttpStatus.OK);
+
+        ListAllCustomerResponse listAllCustomerResponse = new ListAllCustomerResponse(customers);
+        return ResponseUtils.buildResponseEntity(listAllCustomerResponse,HttpStatus.OK);
     }
 
     @GetMapping("/customers/{id}")

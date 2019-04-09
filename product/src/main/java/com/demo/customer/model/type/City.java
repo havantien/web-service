@@ -14,11 +14,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class City extends AbstractModel {
-    @Column(name = "name")
+    @Column(name = "Name")
     private String name;
 
-    @OneToMany(targetEntity = Customer.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "customer")
-    private List<Customer> customerList;
+//    @OneToMany(targetEntity = Customer.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "customer")
+//    private List<Customer> customerList;
 
     public City(Long id, String name) {
         this.id = id;

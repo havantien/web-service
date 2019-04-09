@@ -3,7 +3,7 @@ package com.demo.customer.controller;
 import com.demo.customer.CustomerApplication;
 import com.demo.customer.model.type.Customer;
 import com.demo.customer.service.CustomerService;
-import com.demo.utils.JsonUtil;
+import com.demo.customer.utils.JsonUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;

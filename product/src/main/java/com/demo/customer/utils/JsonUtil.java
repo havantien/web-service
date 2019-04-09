@@ -1,4 +1,4 @@
-package com.demo.utils;
+package com.demo.customer.utils;
 
 import com.demo.customer.model.type.City;
 import com.demo.customer.model.type.Customer;

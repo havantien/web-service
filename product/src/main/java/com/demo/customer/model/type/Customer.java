@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "customer", schema = "public")
+@Table(name = "customer")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Customer extends AbstractModel {
@@ -19,9 +19,9 @@ public class Customer extends AbstractModel {
     @Column(name = "LastName")
     private String lastName;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_city")
-    private City city;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "id_city")
+//    private City city;
 
     public Customer(Long id,String firstName, String lastName) {
         this.id = id;
