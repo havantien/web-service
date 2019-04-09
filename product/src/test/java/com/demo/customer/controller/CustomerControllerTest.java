@@ -1,4 +1,4 @@
-package com.demo.customer.controller.sub;
+package com.demo.customer.controller;
 
 import com.demo.customer.CustomerApplication;
 import com.demo.customer.model.type.Customer;
@@ -17,10 +17,8 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-
 import javax.transaction.Transactional;
 
 @RunWith(SpringRunner.class)
@@ -51,11 +49,12 @@ public class CustomerControllerTest {
         customer.setId((long)12);
         customer.setFirstName("hihádasd");
         customer.setLastName("hhihi12323322");
-        String json = JsonUtil.convertObjToJson(customer);
+        String json = JsonUtil.convertObjToJsonCustomer(customer);
 
 
         //when
-        MockHttpServletResponse response = mockMvc.perform(get("/v1/customers/{id}", 12).accept(MediaType.APPLICATION_JSON)).andReturn().getResponse();
+        MockHttpServletResponse response = mockMvc.perform(get("/v1/customers/{id}", 12).
+                accept(MediaType.APPLICATION_JSON)).andReturn().getResponse();
 
         // then
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());

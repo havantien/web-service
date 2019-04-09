@@ -1,7 +1,9 @@
-package com.demo.customer.controller.sub;
+package com.demo.customer.controller;
 
-import com.demo.customer.controller.AbstractController;
 import com.demo.customer.model.type.City;
+import com.demo.customer.service.CityService;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +14,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1")
-public class CityController extends AbstractController {
+@AllArgsConstructor
+public class CityController {
+    @Autowired
+    private CityService cityService;
+
     @GetMapping("/listCity")
     public ResponseEntity<List<City>> listCity(){
         List<City> cities = cityService.findAll();
@@ -23,7 +29,7 @@ public class CityController extends AbstractController {
 
     }
 
-    @GetMapping("/city/{id}")
+    @GetMapping("/citys/{id}")
     public ResponseEntity<City> getCity(@PathVariable("id") Long id)
     {
         City city = cityService.findById(id);
@@ -38,13 +44,13 @@ public class CityController extends AbstractController {
                                            UriComponentsBuilder builder){
         cityService.save(city);
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(builder.path("/city/{id}")
+        headers.setLocation(builder.path("/citys/{id}")
         .buildAndExpand(city.getId()).toUri());
         return new ResponseEntity<>(city, HttpStatus.CREATED);
 
     }
 
-    @PutMapping("/city/{id}")
+    @PutMapping("/citys/{id}")
     public ResponseEntity<City> updateCity(@PathVariable("id") Long id,
                                            @RequestBody City city){
         City currentCity = cityService.findById(id);
@@ -56,7 +62,7 @@ public class CityController extends AbstractController {
         return new ResponseEntity<>(currentCity, HttpStatus.OK);
     }
 
-    @DeleteMapping("/city/{id}")
+    @DeleteMapping("/citys/{id}")
     public ResponseEntity<City> deleteCity(@PathVariable("id") Long id) {
         City city = cityService.findById(id);
         if (city == null) {

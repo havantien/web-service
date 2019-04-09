@@ -1,6 +1,5 @@
-package com.demo.customer.controller.sub;
+package com.demo.customer.controller;
 
-import com.demo.customer.controller.AbstractController;
 import com.demo.customer.model.type.Customer;
 import com.demo.customer.service.CustomerService;
 import lombok.AllArgsConstructor;
@@ -16,12 +15,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1")
 @AllArgsConstructor
-public class CustomerController extends AbstractController {
+public class CustomerController {
 
     @Autowired
-    protected CustomerService customerService;
+    private CustomerService customerService;
 
-    @GetMapping("/list")
+    @GetMapping("/list-customer")
     public ResponseEntity<List<Customer>> listAllCustomer() {
         List<Customer> customers = customerService.findAll();
         if (customers == null) {
@@ -43,7 +42,7 @@ public class CustomerController extends AbstractController {
     public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer, UriComponentsBuilder builder) {
         customerService.save(customer);
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(builder.path("/customer/{id}")
+        headers.setLocation(builder.path("/customers/{id}")
                 .buildAndExpand(customer.getId()).toUri());
         return new ResponseEntity<>(customer, HttpStatus.CREATED);
     }
