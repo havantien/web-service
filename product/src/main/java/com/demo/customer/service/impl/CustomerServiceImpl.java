@@ -28,14 +28,14 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void save(Customer customer) {
+    public boolean save(Customer customer) {
         customerRepository.save(customer);
-
+        return true;
     }
 
     @Override
-    public void remove(Long id) {
+    public boolean remove(Long id) {
         customerRepository.deleteById(id);
-
+        return true;
     }
 }

@@ -3,6 +3,7 @@ package com.demo.customer.controller;
 import com.demo.customer.model.type.Customer;
 import com.demo.customer.service.CityService;
 import com.demo.customer.service.CustomerService;
+import com.demo.customer.utils.JsonUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -56,15 +57,63 @@ public class CustomerControllerTestByWebMVC {
     }
 
     @Test
-    public void getCustomer() {
+    public void getCustomer() throws Exception {
+
+        Customer customer = new Customer();
+        customer.setId((long)100);
+        customer.setFirstName("tiki");
+        customer.setLastName("taka");
+
+
+        given(customerService.findById((long) 100)).willReturn(customer);
+
+        MockHttpServletResponse response = mvc.perform(get("/v1/customers/{id}", 100)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse();
+
+        boolean a = true;
+
     }
 
     @Test
-    public void createCustomer() {
+    public void createCustomer() throws Exception {
+        Customer customer = new Customer();
+        customer.setId((long)100);
+        customer.setFirstName("tikike");
+        customer.setLastName("hihehe");
+
+        given(customerService.save(customer)).willReturn(true);
+
+        MockHttpServletResponse response = mvc.perform(post("/v1/customers")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.convertObjToJsonCustomer(customer)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.code").value(1))
+                .andReturn()
+                .getResponse();
+
+
     }
 
     @Test
-    public void updateCustomer() {
+    public void updateCustomer() throws Exception {
+        Customer customer = new Customer();
+        customer.setId((long)100);
+        customer.setFirstName("hihi");
+        customer.setLastName("hhihi");
+
+        given(customerService.findById((long)100)).willReturn(customer);
+        given(customerService.save(customer)).willReturn(true);
+
+        MockHttpServletResponse response = mvc.perform(put("/v1/customers/{id}",100).contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.convertObjToJsonCustomer(customer)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(1))
+                .andReturn()
+                .getResponse();
+
     }
 
     @Test

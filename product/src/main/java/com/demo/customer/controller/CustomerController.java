@@ -5,10 +5,10 @@ import com.demo.customer.model.type.Customer;
 import com.demo.customer.response.ResponseModel;
 import com.demo.customer.response.customer.AddCustomerResponse;
 import com.demo.customer.response.customer.CustomerResponse;
+import com.demo.customer.response.customer.DeleteCustomerResponse;
 import com.demo.customer.response.customer.ListAllCustomerResponse;
 import com.demo.customer.service.CustomerService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,14 +23,13 @@ import java.util.List;
 @AllArgsConstructor
 public class CustomerController extends AbstractController {
 
-    @Autowired
     private CustomerService customerService;
 
     @GetMapping("/list-customer")
     public ResponseEntity<ResponseModel> listAllCustomer() {
         List<Customer> customers = customerService.findAll();
         if (customers == null) {
-            return new ResponseEntity<>(new ResponseModel(CodeResponse.FAIL_CODE),HttpStatus.OK);
+            return FAIL;
         }
         ListAllCustomerResponse listAllCustomerResponse = new ListAllCustomerResponse(customers);
         return ResponseUtils.buildResponseEntity(listAllCustomerResponse,HttpStatus.OK);
@@ -40,9 +39,9 @@ public class CustomerController extends AbstractController {
     public ResponseEntity<ResponseModel> getCustomer(@PathVariable("id") Long id) {
         Customer customer = customerService.findById(id);
         if (customer == null) {
-            return new ResponseEntity<>(new ResponseModel(CodeResponse.FAIL_CODE),HttpStatus.OK);
+            return FAIL;
         }
-        CustomerResponse customerResponse = new CustomerResponse(id, customer.getFirstName(),customer.getLastName());
+        CustomerResponse customerResponse = new CustomerResponse(customer.getId(), customer.getFirstName(),customer.getLastName());
         return ResponseUtils.buildResponseEntity(customerResponse, HttpStatus.OK);
     }
 
@@ -61,12 +60,12 @@ public class CustomerController extends AbstractController {
         Customer currentCustomer = customerService.findById(id);
 
         if (currentCustomer == null) {
-            return new ResponseEntity<>(new ResponseModel(CodeResponse.FAIL_CODE), HttpStatus.OK);
+            return FAIL;
         }
         currentCustomer.setFirstName(customer.getFirstName());
         currentCustomer.setLastName(customer.getLastName());
         customerService.save(currentCustomer);
-        AddCustomerResponse addCustomerResponse = new AddCustomerResponse(id, currentCustomer.getFirstName(), currentCustomer.getLastName());
+        AddCustomerResponse addCustomerResponse = new AddCustomerResponse(currentCustomer.getFirstName(), currentCustomer.getLastName());
         return ResponseUtils.buildResponseEntity(addCustomerResponse, HttpStatus.OK);
     }
 
@@ -74,10 +73,11 @@ public class CustomerController extends AbstractController {
     public ResponseEntity<ResponseModel> deleteCustomer(@PathVariable("id") Long id) {
         Customer customer = customerService.findById(id);
         if (customer == null) {
-            return new ResponseEntity<>(new ResponseModel(CodeResponse.FAIL_CODE),HttpStatus.NOT_FOUND);
+            return FAIL;
         }
         customerService.remove(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        DeleteCustomerResponse deleteCustomerResponse = new DeleteCustomerResponse();
+        return ResponseUtils.buildResponseEntity(deleteCustomerResponse, HttpStatus.OK);
     }
 
 

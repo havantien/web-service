@@ -8,8 +8,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddCustomerResponse extends AbstractResponse {
-    private String firstName;
-    private String lastName;
-
+public class DeleteCustomerResponse extends AbstractResponse {
+    String message = "thành công";
 }

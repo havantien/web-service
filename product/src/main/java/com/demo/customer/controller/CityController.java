@@ -1,7 +1,14 @@
 package com.demo.customer.controller;
 
+import com.demo.customer.constant.CodeResponse;
 import com.demo.customer.model.type.City;
+import com.demo.customer.response.ResponseModel;
+import com.demo.customer.response.city.AddCityResponse;
+import com.demo.customer.response.city.CityResponse;
+import com.demo.customer.response.city.DeleteCityResponse;
+import com.demo.customer.response.city.ListAllCityResponse;
 import com.demo.customer.service.CityService;
+import com.demo.customer.utils.ResponseUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -15,28 +22,30 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1")
 @AllArgsConstructor
-public class CityController {
+public class CityController extends AbstractController {
     @Autowired
     private CityService cityService;
 
     @GetMapping("/listCity")
-    public ResponseEntity<List<City>> listCity(){
-        List<City> cities = cityService.findAll();
-        if (cities.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public ResponseEntity<ResponseModel> listCity(){
+        List<City> citys = cityService.findAll();
+        if (citys.isEmpty()) {
+            return FAIL;
         }
-        return new ResponseEntity<>(cities, HttpStatus.OK);
+        ListAllCityResponse listAllCityResponse = new ListAllCityResponse();
+        return ResponseUtils.buildResponseEntity (listAllCityResponse, HttpStatus.OK);
 
     }
 
     @GetMapping("/citys/{id}")
-    public ResponseEntity<City> getCity(@PathVariable("id") Long id)
+    public ResponseEntity<ResponseModel> getCity(@PathVariable("id") Long id)
     {
         City city = cityService.findById(id);
         if (city == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return FAIL ;
         }
-        return new ResponseEntity<>(city, HttpStatus.OK);
+        CityResponse cityResponse = new CityResponse();
+        return  ResponseUtils.buildResponseEntity(cityResponse, HttpStatus.OK);
     }
 
     @PostMapping("/citys")
@@ -51,24 +60,26 @@ public class CityController {
     }
 
     @PutMapping("/citys/{id}")
-    public ResponseEntity<City> updateCity(@PathVariable("id") Long id,
-                                           @RequestBody City city){
+    public ResponseEntity<ResponseModel> updateCity(@PathVariable("id") Long id,
+                                                    @RequestBody City city){
         City currentCity = cityService.findById(id);
         if (currentCity == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return FAIL;
         }
         currentCity.setName(city.getName());
         cityService.save(currentCity);
-        return new ResponseEntity<>(currentCity, HttpStatus.OK);
+        AddCityResponse addCityResponse = new AddCityResponse(currentCity.getName());
+        return ResponseUtils.buildResponseEntity(addCityResponse, HttpStatus.OK);
     }
 
     @DeleteMapping("/citys/{id}")
-    public ResponseEntity<City> deleteCity(@PathVariable("id") Long id) {
+    public ResponseEntity<ResponseModel> deleteCity(@PathVariable("id") Long id) {
         City city = cityService.findById(id);
         if (city == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return FAIL;
         }
         cityService.remove(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        DeleteCityResponse deleteCityResponse = new DeleteCityResponse();
+        return ResponseUtils.buildResponseEntity(deleteCityResponse, HttpStatus.OK);
     }
 }
