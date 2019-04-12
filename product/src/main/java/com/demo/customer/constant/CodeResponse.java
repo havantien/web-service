@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public enum  CodeResponse {
     SUCCESS_CODE(1,"Success"),
-    FAIL_CODE(0,"Failed"),
-    EXPIRED_CODE(-1,"Expired session");
+    FAIL_CODE(0,"Failed");
+
 
     private int code;
     private String message;

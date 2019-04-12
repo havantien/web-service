@@ -11,7 +11,7 @@ public interface CityService {
 
     City findById(Long id);
 
-    void save(City city);
+    boolean save(City city);
 
-    void remove(Long id);
+    boolean remove(Long id);
 }

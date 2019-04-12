@@ -1,13 +1,11 @@
 package com.demo.customer.controller;
 
-import com.demo.customer.constant.CodeResponse;
 import com.demo.customer.model.type.Customer;
 import com.demo.customer.response.ResponseModel;
 import com.demo.customer.response.customer.AddCustomerResponse;
 import com.demo.customer.response.customer.CustomerResponse;
 import com.demo.customer.response.customer.DeleteCustomerResponse;
 import com.demo.customer.response.customer.ListAllCustomerResponse;
-import com.demo.customer.service.CustomerService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,7 +21,6 @@ import java.util.List;
 @AllArgsConstructor
 public class CustomerController extends AbstractController {
 
-    private CustomerService customerService;
 
     @GetMapping("/list-customer")
     public ResponseEntity<ResponseModel> listAllCustomer() {

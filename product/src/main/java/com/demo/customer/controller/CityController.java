@@ -1,16 +1,14 @@
 package com.demo.customer.controller;
 
-import com.demo.customer.constant.CodeResponse;
+
 import com.demo.customer.model.type.City;
 import com.demo.customer.response.ResponseModel;
 import com.demo.customer.response.city.AddCityResponse;
 import com.demo.customer.response.city.CityResponse;
 import com.demo.customer.response.city.DeleteCityResponse;
 import com.demo.customer.response.city.ListAllCityResponse;
-import com.demo.customer.service.CityService;
 import com.demo.customer.utils.ResponseUtils;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +21,6 @@ import java.util.List;
 @RequestMapping("/v1")
 @AllArgsConstructor
 public class CityController extends AbstractController {
-    @Autowired
-    private CityService cityService;
 
     @GetMapping("/listCity")
     public ResponseEntity<ResponseModel> listCity(){

@@ -24,13 +24,14 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public void save(City city) {
+    public boolean save(City city) {
         cityRepository.save(city);
+        return true;
     }
 
     @Override
-    public void remove(Long id) {
+    public boolean remove(Long id) {
         cityRepository.deleteById(id);
-
+        return true;
     }
 }
