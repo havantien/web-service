@@ -22,11 +22,11 @@ import java.util.List;
 @AllArgsConstructor
 public class CityController extends AbstractController {
 
-    @GetMapping("/listCity")
+    @GetMapping("/citys")
     public ResponseEntity<ResponseModel> listCity(){
         List<City> citys = cityService.findAll();
         if (citys.isEmpty()) {
-            return FAIL;
+            return FAIL_RESPONSE;
         }
         ListAllCityResponse listAllCityResponse = new ListAllCityResponse();
         return ResponseUtils.buildResponseEntity (listAllCityResponse, HttpStatus.OK);
@@ -38,7 +38,7 @@ public class CityController extends AbstractController {
     {
         City city = cityService.findById(id);
         if (city == null) {
-            return FAIL ;
+            return FAIL_RESPONSE ;
         }
         CityResponse cityResponse = new CityResponse();
         return  ResponseUtils.buildResponseEntity(cityResponse, HttpStatus.OK);
@@ -60,7 +60,7 @@ public class CityController extends AbstractController {
                                                     @RequestBody City city){
         City currentCity = cityService.findById(id);
         if (currentCity == null) {
-            return FAIL;
+            return FAIL_RESPONSE;
         }
         currentCity.setName(city.getName());
         cityService.save(currentCity);
@@ -72,7 +72,7 @@ public class CityController extends AbstractController {
     public ResponseEntity<ResponseModel> deleteCity(@PathVariable("id") Long id) {
         City city = cityService.findById(id);
         if (city == null) {
-            return FAIL;
+            return FAIL_RESPONSE;
         }
         cityService.remove(id);
         DeleteCityResponse deleteCityResponse = new DeleteCityResponse();

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public abstract class AbstractController {
 
-    protected static final ResponseEntity<ResponseModel> FAIL = new ResponseEntity<>(new ResponseModel(
+    protected static final ResponseEntity<ResponseModel> FAIL_RESPONSE = new ResponseEntity<>(new ResponseModel(
             CodeResponse.FAIL_CODE.getCode(), MessageConstant.NOT_CAPTAIN_COURSE), HttpStatus.OK);
 
     @Autowired

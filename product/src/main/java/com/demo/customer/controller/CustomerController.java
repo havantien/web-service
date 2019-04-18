@@ -22,11 +22,11 @@ import java.util.List;
 public class CustomerController extends AbstractController {
 
 
-    @GetMapping("/list-customer")
+    @GetMapping("/customers")
     public ResponseEntity<ResponseModel> listAllCustomer() {
         List<Customer> customers = customerService.findAll();
         if (customers == null) {
-            return FAIL;
+            return FAIL_RESPONSE;
         }
         ListAllCustomerResponse listAllCustomerResponse = new ListAllCustomerResponse(customers);
         return ResponseUtils.buildResponseEntity(listAllCustomerResponse,HttpStatus.OK);
@@ -36,7 +36,7 @@ public class CustomerController extends AbstractController {
     public ResponseEntity<ResponseModel> getCustomer(@PathVariable("id") Long id) {
         Customer customer = customerService.findById(id);
         if (customer == null) {
-            return FAIL;
+            return FAIL_RESPONSE;
         }
         CustomerResponse customerResponse = new CustomerResponse(customer.getId(), customer.getFirstName(),customer.getLastName());
         return ResponseUtils.buildResponseEntity(customerResponse, HttpStatus.OK);
@@ -57,7 +57,7 @@ public class CustomerController extends AbstractController {
         Customer currentCustomer = customerService.findById(id);
 
         if (currentCustomer == null) {
-            return FAIL;
+            return FAIL_RESPONSE;
         }
         currentCustomer.setFirstName(customer.getFirstName());
         currentCustomer.setLastName(customer.getLastName());
@@ -70,7 +70,7 @@ public class CustomerController extends AbstractController {
     public ResponseEntity<ResponseModel> deleteCustomer(@PathVariable("id") Long id) {
         Customer customer = customerService.findById(id);
         if (customer == null) {
-            return FAIL;
+            return FAIL_RESPONSE;
         }
         customerService.remove(id);
         DeleteCustomerResponse deleteCustomerResponse = new DeleteCustomerResponse();
