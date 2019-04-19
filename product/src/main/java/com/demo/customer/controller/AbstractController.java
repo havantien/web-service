@@ -3,8 +3,10 @@ package com.demo.customer.controller;
 import com.demo.customer.constant.CodeResponse;
 import com.demo.customer.constant.MessageConstant;
 import com.demo.customer.response.ResponseModel;
+import com.demo.customer.service.CategoryService;
 import com.demo.customer.service.CityService;
 import com.demo.customer.service.CustomerService;
+import com.demo.customer.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,4 +23,10 @@ public abstract class AbstractController {
 
     @Autowired
     protected CityService cityService;
+
+    @Autowired
+    protected ProductService productService;
+
+    @Autowired
+    protected CategoryService categoryService;
 }

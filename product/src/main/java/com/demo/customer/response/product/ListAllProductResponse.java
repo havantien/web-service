@@ -1,16 +1,15 @@
-package com.demo.customer.response.customer;
+package com.demo.customer.response.product;
 
-import com.demo.customer.model.type.Customer;
+import com.demo.customer.model.type.Product;
 import com.demo.customer.response.AbstractResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ListAllCustomerResponse extends AbstractResponse {
-    private List<Customer> customers;
+public class ListAllProductResponse extends AbstractResponse {
+    private List<Product> productList;
 }

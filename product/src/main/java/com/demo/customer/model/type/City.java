@@ -17,7 +17,7 @@ public class City extends AbstractModel {
     @Column(name = "Name")
     private String name;
 
-    @OneToMany(targetEntity = Customer.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "customer")
+    @OneToMany(targetEntity = Customer.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "city")
     private List<Customer> customerList;
 
     public City(Long id, String name) {
