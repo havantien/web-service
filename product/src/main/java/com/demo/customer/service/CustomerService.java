@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
 public interface CustomerService {
     List<Customer> findAll();
 
@@ -14,5 +13,7 @@ public interface CustomerService {
     boolean save(Customer customer);
 
     boolean remove(Long id);
+
+    List<Customer> findAllByCity_Id(Long id);
 
 }

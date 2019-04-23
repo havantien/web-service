@@ -38,4 +38,9 @@ public class CustomerServiceImpl implements CustomerService {
         customerRepository.deleteById(id);
         return true;
     }
+
+    @Override
+    public List<Customer> findAllByCity_Id(Long id) {
+        return customerRepository.findAllByCity_Id(id);
+    }
 }

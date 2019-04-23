@@ -1,5 +1,6 @@
 package com.demo.customer.service.impl;
 
+import com.demo.customer.model.type.Category;
 import com.demo.customer.model.type.Product;
 import com.demo.customer.repository.ProductRepository;
 import com.demo.customer.service.ProductService;
@@ -33,5 +34,15 @@ public class ProductServiceImpl implements ProductService {
     public boolean remove(Long id) {
         productRepository.deleteById(id);
         return true;
+    }
+
+    @Override
+    public List<Category> findAllById(Long id) {
+        return productRepository.findAllById(id);
+    }
+
+    @Override
+    public List<Product> findAllByCustomer_Id(Long id) {
+        return productRepository.findAllByCustomer_Id(id);
     }
 }

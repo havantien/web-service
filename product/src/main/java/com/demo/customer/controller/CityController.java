@@ -22,10 +22,10 @@ import java.util.List;
 @AllArgsConstructor
 public class CityController extends AbstractController {
 
-    @GetMapping("/citys")
+    @GetMapping("/cities")
     public ResponseEntity<ResponseModel> listCity(){
-        List<City> citys = cityService.findAll();
-        if (citys.isEmpty()) {
+        List<City> cities = cityService.findAll();
+        if (cities.isEmpty()) {
             return FAIL_RESPONSE;
         }
         ListAllCityResponse listAllCityResponse = new ListAllCityResponse();
@@ -33,7 +33,7 @@ public class CityController extends AbstractController {
 
     }
 
-    @GetMapping("/citys/{id}")
+    @GetMapping("/cities/{id}")
     public ResponseEntity<ResponseModel> getCity(@PathVariable("id") Long id)
     {
         City city = cityService.findById(id);
@@ -44,18 +44,18 @@ public class CityController extends AbstractController {
         return  ResponseUtils.buildResponseEntity(cityResponse, HttpStatus.OK);
     }
 
-    @PostMapping("/citys")
+    @PostMapping("/cities")
     public ResponseEntity<City> createCity(@RequestBody City city,
                                            UriComponentsBuilder builder){
         cityService.save(city);
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(builder.path("/citys/{id}")
+        headers.setLocation(builder.path("/cities/{id}")
         .buildAndExpand(city.getId()).toUri());
         return new ResponseEntity<>(city, HttpStatus.CREATED);
 
     }
 
-    @PutMapping("/citys/{id}")
+    @PutMapping("/cities/{id}")
     public ResponseEntity<ResponseModel> updateCity(@PathVariable("id") Long id,
                                                     @RequestBody City city){
         City currentCity = cityService.findById(id);
@@ -68,7 +68,7 @@ public class CityController extends AbstractController {
         return ResponseUtils.buildResponseEntity(addCityResponse, HttpStatus.OK);
     }
 
-    @DeleteMapping("/citys/{id}")
+    @DeleteMapping("/cities/{id}")
     public ResponseEntity<ResponseModel> deleteCity(@PathVariable("id") Long id) {
         City city = cityService.findById(id);
         if (city == null) {
